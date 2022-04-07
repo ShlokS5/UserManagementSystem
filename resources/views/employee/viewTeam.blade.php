@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('navmenu')
+
+<li><a href="/viewInfo">View Profile</a></li>
+<li><a href="/viewSalary">View Salary</a></li>
+<li><a href="/markAttendance">Mark Attendance</a></li>
+<li><a >View Team</a></li>
+
+@endsection
+
 @section('content')
 
 <div class="row">

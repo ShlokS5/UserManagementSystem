@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('navmenu')
+
+<li><a href="/viewInfo">View Profile</a></li>
+<li><a>View Salary</a></li>
+<li><a href="/markAttendance">Mark Attendance</a></li>
+<li><a href="/viewTeam">View Team</a></li>
+
+@endsection
+
 @section('content')
 
 <div class="row" align="center">
@@ -15,7 +24,7 @@
 
 		<div class="card-body" style="align:center; ">
 			<div class="table-responsive">
-				<table style="width:100%; align:center; " >
+				<table style="width:10%; align:center; " >
 				  <tr>
 				    <th>Basic</th>
 				    <td><script type="text/javascript">document.write({{ $user->salary }}/24)</script></td>

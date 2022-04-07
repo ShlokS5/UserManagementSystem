@@ -18,32 +18,25 @@ class AttendanceController extends Controller
         $user= attendance::find(Auth::user()->id);
 
         if (empty($user)) {
-            attendance::insert( array(
-                'ID'     =>   $id, 
-                'timeIn'   =>   Carbon::now(),
-        ));
+            attendance::newAtt($id);
+            return redirect('/markAttendance')->with('status', 'Punched In!');
         }else{
-            attendance::where('ID', $id)->update(array(
-           'timeIn' => Carbon::now(),
-        ));}
-
-         return redirect('/markAttendance')->with('jsAlert', 'Punched In!');
+            return redirect('/markAttendance')->with('status', 'Previous attendance still under approval');
+            }
     }
 
     public function punchOut()
     {   
         $id = Auth::user()->id;
-        $user= attendance::find(Auth::user()->id);
+        $user= attendance::find($id);
 
         if (empty($user)) {
-            echo "Punch In First";
-            return redirect('/markAttendance');
+            return redirect('/markAttendance')->with('status', 'Punch In First');
         }else{
-            attendance::where('ID', $id)->update(array(
-           'timeOut' => Carbon::now(),
-        ));
-            return redirect('/home');
+            attendance::punchOut($id);
+            return redirect('/markAttendance')->with('status', 'Punched Out!');
         }
+        
     }
 
 }

@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@section('navmenu')
+<li><a href="/viewEmployees" >View Employee Data</a></li>
+<li><a href="/manageEmployees" >Edit Employee Data</a></li>
+<li><a href="/manageAttendance" >Manage Employee Attendance</a></li>
+@endsection
+
 @section('content')
 
 <div class="row">
@@ -18,7 +24,9 @@
 					<thead class="text-primary">
 						<th>Id</th>
 						<th>Time In</th>
+						<th>Days Worked</th>
 						<th>Time Out</th>
+						<th>Last Updated</th>
 						<th>Approve</th>
 					</thead>
 					<tbody>
@@ -26,7 +34,9 @@
 							<tr>
 								<th>{{ $row->ID }}</th>
 								<th>{{ $row->timeIn }}</th>
+								<th>{{ $row->DaysWorked }}</th>
 								<th>{{ $row->timeOut }}</th>
+								<th>{{ $row->updated_at }}</th>
 								<th><a href="/approveAttendance/{{ $row->ID }}" class="btn btn-success">Approve</a></th>
 							</tr>
 						@endforeach

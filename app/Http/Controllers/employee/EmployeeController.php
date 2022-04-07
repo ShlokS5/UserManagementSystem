@@ -38,13 +38,13 @@ class EmployeeController extends Controller
         $role = $user->role;
 
         if ($role == "SDE-M") {
-            $users = User::where('role', "SDE")->get(['id', 'name', 'email', 'role', 'salary']);
+            $users = User::where('role','LIKE','%'."SDE".'%')->get(['id', 'name', 'email', 'role', 'salary']);
             return view('employee.viewTeam')->with('users', $users);
         }elseif ($role == "QA-M") {
-            $users = User::where('role', "QA")->get(['id', 'name', 'email', 'role', 'salary']);
+            $users = User::where('role','LIKE','%'."QA".'%')->get(['id', 'name', 'email', 'role', 'salary']);
             return view('employee.viewTeam')->with('users', $users);
         }elseif ($role == "HR-M") {
-            $users = User::where('role', "HR")->get(['id', 'name', 'email', 'role', 'salary']);
+            $users = User::where('role','LIKE','%'."HR".'%')->get(['id', 'name', 'email', 'role', 'salary']);
             return view('employee.viewTeam')->with('users', $users);
         }else{
             return "Only managers can access!";

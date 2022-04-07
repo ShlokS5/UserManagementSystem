@@ -39,6 +39,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function updateUser($id, $name, $role, $salary){
+
+        $user = User::find($id);
+        $user->name = $name;
+        $user->role = $role;
+        $user->salary = $salary;
+        $user->update();    
+    }
+
     public function roles() {
         return $this->belongsToMany('App\Role');
     }
@@ -55,10 +64,6 @@ class User extends Authenticatable
             return true;
         }
         return false;
-    }
-
-    public function employee() {
-        return $this->hasOne('App\Employee');
     }
 
 }

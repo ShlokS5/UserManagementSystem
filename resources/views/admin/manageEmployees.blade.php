@@ -1,11 +1,17 @@
 @extends('layouts.app')
 
+@section('navmenu')
+<li><a href="/viewEmployees" >View Employee Data</a></li>
+<li><a href="/manageEmployees" >Edit Employee Data</a></li>
+<li><a href="/manageAttendance" >Manage Employee Attendance</a></li>
+@endsection
+
 @section('content')
 
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
-			<h3 class="card title">Employees</h3>
+			<h3 class="card title" align="center">Employees</h3>
 			@if (session('status'))
 				<div class="alert alert-success" role="alert">
 					{{ session('status') }}

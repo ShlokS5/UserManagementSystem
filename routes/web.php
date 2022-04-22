@@ -3,18 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', function () {
-    return view('auth/login');
-});
+Route::get('/', 'LoginController@show');
 
 Auth::routes();
 
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
 
-    Route::get('/index', function () {
-        return view('admin.index');
-    });
+    Route::get('/index', 'admin\AdminController@viewindex');
 
     Route::get('/viewEmployees', 'admin\AdminController@view');
 

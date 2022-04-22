@@ -47,4 +47,8 @@ class LoginController extends Controller
             return '/home';
         }
     }
+
+    public function show() {
+        return view('auth.login');
+    }
 }

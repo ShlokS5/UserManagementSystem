@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {   
 
-    public function view() {
+    public function index() {
+        return view('admin.index');
+    }
+
+    public function show() {
         $users = User::paginate(7);
         return view('admin.viewEmployees')->with('users', $users);
     }

@@ -38,7 +38,6 @@ class attendance extends Model
     public static function approveAttendance($id){
         $user = attendance::findOrFail($id);
         attendance::where('ID', $id)->increment('DaysWorked');
-        attendance::deleteAtt($id);
     }
 
     public static function deleteAtt($id){

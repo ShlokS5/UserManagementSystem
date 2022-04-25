@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if (session('status'))
+<div class="alert alert-danger" role="alert">
+	{{ session('status') }}
+</div>
+@endif
+
 <h1 align="center"><br>WELCOME USER</h1>
 @endsection
 
@@ -12,3 +19,4 @@
 <li><a href="/viewTeam">View Team</a></li>
 
 @endsection
+

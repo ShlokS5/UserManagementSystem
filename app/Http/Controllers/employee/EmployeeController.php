@@ -11,17 +11,17 @@ use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {   
-    public function viewHome() {
+    public function index() {
         return view('employee.home');
     }
 
-    public function viewProfile() {
+    public function showProfile() {
 
         $user= User::find(Auth::user()->id);
         return view('employee.viewInfo')->with('user', $user);
     }
 
-    public function viewSalary() {
+    public function showSalary() {
 
         $user = User::find(Auth::user()->id);
         return view('employee.viewSalary')->with('user', $user);
@@ -32,7 +32,7 @@ class EmployeeController extends Controller
         return view('employee.markAttendance');
     }
 
-    public function viewTeam() {
+    public function showTeam() {
 
         $user= User::find(Auth::user()->id);
         $role = $user->role;
@@ -47,7 +47,7 @@ class EmployeeController extends Controller
             $users = User::where('role','LIKE','%'."HR".'%')->get(['id', 'name', 'email', 'role', 'salary']);
             return view('employee.viewTeam')->with('users', $users);
         }else{
-            return "Only managers can access!";
+            return redirect('/home')->with('status', 'Only managers can access team data!');
         }
     }
 }

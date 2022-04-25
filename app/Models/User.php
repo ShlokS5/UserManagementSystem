@@ -41,7 +41,7 @@ class User extends Authenticatable
 
     public static function updateUser($id, $name, $role, $salary){
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $user->name = $name;
         $user->role = $role;
         $user->salary = $salary;

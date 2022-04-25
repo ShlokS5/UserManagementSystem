@@ -3,20 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 
-Route::get('/', function () {
-    return view('auth/login');
-});
+Route::get('/', 'LoginController@show');
 
 Auth::routes();
 
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
 
-    Route::get('/index', function () {
-        return view('admin.index');
-    });
+    Route::get('/index', 'admin\AdminController@index');
 
-    Route::get('/viewEmployees', 'admin\AdminController@view');
+    Route::get('/viewEmployees', 'admin\AdminController@show');
 
     Route::get('/viewEmployeesFiltered', 'admin\AdminController@viewFiltered');
 
@@ -36,15 +32,15 @@ Route::group(['middleware' => ['auth', 'admin']], function(){
 
 Route::group(['middleware' => ['auth', 'employee']], function(){
 
-    Route::get('/home', 'employee\EmployeeController@viewHome');
+    Route::get('/home', 'employee\EmployeeController@index');
     
-    Route::get('/viewInfo', 'employee\EmployeeController@viewProfile');
+    Route::get('/viewInfo', 'employee\EmployeeController@showProfile');
 
-    Route::get('/viewSalary', 'employee\EmployeeController@viewSalary');
+    Route::get('/viewSalary', 'employee\EmployeeController@showSalary');
 
     Route::get('/markAttendance', 'employee\EmployeeController@markAttendance');
 
-    Route::get('/viewTeam', 'employee\EmployeeController@viewTeam');
+    Route::get('/viewTeam', 'employee\EmployeeController@showTeam');
 
     Route::get('/punchIn', 'employee\AttendanceController@punchIn');
 

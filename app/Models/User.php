@@ -39,6 +39,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function store($name, $email, $role, $salary){
+
+        $user = User::findOrFail($id);
+        $user->name = $name;
+        $user->email = $email;
+        $user->role = $role;
+        $user->password = bcrypt($name);
+        $user->save();    
+    }
+
     public static function updateUser($id, $name, $role, $salary){
 
         $user = User::findOrFail($id);

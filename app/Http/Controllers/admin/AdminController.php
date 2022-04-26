@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminController extends Controller
 {   
@@ -19,29 +20,54 @@ class AdminController extends Controller
     }
 
     public function show() {
-        $users = User::paginate(7);
+        
+        try {
+            $users = User::paginate(7);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+        
         return view('admin.viewEmployees')->with('users', $users);
     }
 
     public function viewFiltered(Request $request) {
+
         $role = $request->get('role');
-        $users = User::all();
+
+        try {
+            $users = User::all();
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+        
         if ($role == "ALL") {
             $users = User::paginate(7);
         }else{
             $users = User::where('role','LIKE','%'.$role.'%')->paginate(7);
         }
+
         return view('admin.viewEmployees')->with('users', $users);
     }
 
     public function manage() {
 
-        $users = User::paginate(7);
+        try {
+            $users = User::paginate(7);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
         return view('admin.manageEmployees')->with('users', $users);
     }
 
     public function edit(Request $request, $id) {
-        $user = User::findOrFail($id);
+
+        try {
+            $user = User::findOrFail($id);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
         return view('admin.editEmployee')->with('user', $user);
     }
 
@@ -50,26 +76,48 @@ class AdminController extends Controller
         $name = $request->input('name');
         $role = $request->input('role');
         $salary = $request->input('salary');
-        
-        User::updateUser($id, $name, $role, $salary);
+
+        try {
+            User::updateUser($id, $name, $role, $salary);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
 
         return redirect('/manageEmployees')->with('status', 'updated successfully');
     }
 
     public function delete(Request $request, $id) {
-        $user = User::findOrFail($id);
-        $user->delete();
+
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
         return redirect('/manageEmployees')->with('status', 'Deleted!');
 
     }
 
     public function viewAttendance() {
-        $users = attendance::paginate(10);
+
+        try {
+            $users = attendance::paginate(10);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
         return view('admin.manageAttendance')->with('users', $users);
     }
 
     public function approve(Request $request, $id) {
-        attendance::approveAttendance($id);
+
+        try {
+            attendance::approveAttendance($id);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
         return view('admin.index');
     }
 

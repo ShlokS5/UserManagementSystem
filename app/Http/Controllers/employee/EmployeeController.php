@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EmployeeController extends Controller
 {   
@@ -17,13 +18,23 @@ class EmployeeController extends Controller
 
     public function showProfile() {
 
-        $user= User::find(Auth::user()->id);
+        try {
+            $user= User::find(Auth::user()->id);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+        
         return view('employee.viewInfo')->with('user', $user);
     }
 
     public function showSalary() {
 
-        $user = User::find(Auth::user()->id);
+        try {
+            $user = User::find(Auth::user()->id);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+        
         return view('employee.viewSalary')->with('user', $user);
     }
 
@@ -34,7 +45,12 @@ class EmployeeController extends Controller
 
     public function showTeam() {
 
-        $user= User::find(Auth::user()->id);
+        try {
+            $user= User::find(Auth::user()->id);
+        } catch (ModelNotFoundException $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
         $role = $user->role;
 
         if ($role == "SDE-M") {

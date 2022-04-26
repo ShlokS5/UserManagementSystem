@@ -10,7 +10,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth', 'admin']], function(){
 
-    Route::get('/index', 'admin\AdminController@index');
+    Route::get('/index', 'admin\AdminController@viewindex');
 
     Route::get('/viewEmployees', 'admin\AdminController@show');
 

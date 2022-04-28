@@ -25,7 +25,7 @@
 			<div class="table-responsive">
 				<table style="width:10%; align:center; " >
 					<tr>
-						<th>ID</th>
+						<th>Employee ID</th>
 						<td>{{ $user->id }}</td>
 					</tr><br>
 					<tr>
@@ -42,7 +42,11 @@
 					</tr><br>
 					<tr>
 						<th>Salary</th>
+						@if ($user->salary == NULL)
+							<td>To be updated</td>
+						@else
 						<td>{{ $user->salary }}</td>
+						@endif
 					</tr><br>
 				</table>
 			</div>

@@ -8,19 +8,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Exception;
 
 class EmployeeController extends Controller
 {   
     public function index() {
-        return view('employee.home');
+        $name = Auth::user()->name;
+        return view('employee.home')->with('name', $name);
     }
 
     public function showProfile() {
 
         try {
             $user= User::find(Auth::user()->id);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
         
@@ -31,11 +32,16 @@ class EmployeeController extends Controller
 
         try {
             $user = User::find(Auth::user()->id);
-        } catch (ModelNotFoundException $exception) {
+            $salary = $user->salary;
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
-        
-        return view('employee.viewSalary')->with('user', $user);
+
+        if (isset($salary)) {
+            return view('employee.viewSalary')->with('salary', $salary);
+        }else{
+            return redirect('/home')->with('status', 'Your salary is yet to be updated!');
+        }
     }
 
     public function markAttendance(Request $request) {
@@ -47,22 +53,21 @@ class EmployeeController extends Controller
 
         try {
             $user= User::find(Auth::user()->id);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
         $role = $user->role;
 
-        if ($role == "SDE-M") {
-            $users = User::where('role','LIKE','%'."SDE".'%')->get(['id', 'name', 'email', 'role', 'salary']);
-            return view('employee.viewTeam')->with('users', $users);
-        }elseif ($role == "QA-M") {
-            $users = User::where('role','LIKE','%'."QA".'%')->get(['id', 'name', 'email', 'role', 'salary']);
-            return view('employee.viewTeam')->with('users', $users);
-        }elseif ($role == "HR-M") {
-            $users = User::where('role','LIKE','%'."HR".'%')->get(['id', 'name', 'email', 'role', 'salary']);
-            return view('employee.viewTeam')->with('users', $users);
-        }else{
+        try {
+            $users = User::managerType($role)->get(['id', 'name', 'email', 'role', 'salary']);
+        } catch (Exception $e) {
+            return back()->withError($e->getMessage());
+        }
+           
+        if (count($users) > 0) {
+             return view('employee.viewTeam')->with('users', $users);
+        } else{
             return redirect('/home')->with('status', 'Only managers can access team data!');
         }
     }

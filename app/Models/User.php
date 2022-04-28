@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password', 'role', 'daysWorked'
     ];
 
     /**
@@ -58,22 +58,34 @@ class User extends Authenticatable
         $user->update();    
     }
 
-    public function roles() {
-        return $this->belongsToMany('App\Role');
+    public function monthlyReset()
+    {
+        return User::all()->update(['daysWorked' => "0"]);
     }
 
-    public function hasAnyRoles($roles) {
-        if($this->roles()->whereIn('name', $roles)->first()) {
-            return true;
+    public function compareRoles($role) {
+            return User::where('role','LIKE','%'.$role.'%');
         }
-        return false;
+
+    public static function managerType($role) {
+        if ($role == "SDE-M") {
+            $users = User::where('role','LIKE','%'."SDE".'%');
+            return $users;
+        } elseif ($role == "HR-M") {
+            $users = User::where('role','LIKE','%'."HR".'%');
+            return $users; 
+        }elseif($role == "QA-M") {
+            $users = User::where('role','LIKE','%'."QA".'%');
+            return $users;
+        }else{
+            $users = User::where('role', null);
+            return $users;
+        }
+        
     }
     
-    public function hasRole($role) {
-        if($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        return false;
+    public static function updatesPending() {
+        return count(User::all()->where('salary', NULL));
     }
 
 }

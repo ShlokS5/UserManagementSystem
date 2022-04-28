@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
-			<h3 class="card title" align="center">Employees</h3>
+			<h3 class="card title" align="center">EMPLOYEES</h3>
 			@if (session('status'))
 				<div class="alert alert-success" role="alert">
 					{{ session('status') }}
@@ -40,8 +40,8 @@
 						<th>Name</th>
 						<th>Email</th>
 						<th>Role</th>
+						<th>Days Worked</th>
 						<th>Salary</th>
-						<th>password</th>
 					</thead>
 					<tbody>
 						@foreach ($users as $row)
@@ -50,8 +50,8 @@
 							<th>{{ $row->name }}</th>
 							<th>{{ $row->email }}</th>
 							<th>{{ $row->role }}</th>
+							<th>{{ $row->daysWorked }}</th>
 							<th>{{ $row->salary }}</th>
-							<th>{{ $row->password }}</th>
 						</tr>
 						@endforeach
 					</tbody>

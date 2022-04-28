@@ -13,10 +13,9 @@ class attendance extends Model
     ];
 
     protected $hidden = [
-        'daysWorked'
     ];
 
-    public static function newAtt($id) {
+    public static function newAttendance($id) {
         attendance::insert( array(
             'ID'     =>   $id, 
             'timeIn'   =>   Carbon::now(),
@@ -36,11 +35,12 @@ class attendance extends Model
     }
 
     public static function approveAttendance($id){
-        $user = attendance::findOrFail($id);
-        attendance::where('ID', $id)->increment('DaysWorked');
+        $user = User::findOrFail($id);
+        User::where('ID', $id)->increment('DaysWorked');
+        attendance::deleteAttendance($id);
     }
 
-    public static function deleteAtt($id){
+    public static function deleteAttendance($id){
 
         attendance::where('ID', $id)->delete();
     }

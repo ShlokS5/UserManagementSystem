@@ -8,7 +8,8 @@
 </div>
 @endif
 
-<h1 align="center"><br>WELCOME USER</h1>
+<h1 align="center"><br>WELCOME {{ $name }}</h1>
+
 @endsection
 
 @section('navmenu')

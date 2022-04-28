@@ -10,40 +10,50 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Exception;
 
 class AdminController extends Controller
 {   
 
     public function index() {
-        return view('admin.index');
+        
+        try {   
+        $count = User::updatesPending();
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+        return view('admin.index')->with('count', $count);
     }
 
     public function show() {
-        
+
         try {
             $users = User::paginate(7);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
-        
+
         return view('admin.viewEmployees')->with('users', $users);
     }
 
     public function viewFiltered(Request $request) {
 
         $role = $request->get('role');
-
+        
         try {
             $users = User::all();
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
         
         if ($role == "ALL") {
             $users = User::paginate(7);
         }else{
-            $users = User::where('role','LIKE','%'.$role.'%')->paginate(7);
+            try {
+            $users = User::compareRoles($role)->paginate(7); 
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
         }
 
         return view('admin.viewEmployees')->with('users', $users);
@@ -53,7 +63,7 @@ class AdminController extends Controller
 
         try {
             $users = User::paginate(7);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
@@ -64,7 +74,7 @@ class AdminController extends Controller
 
         try {
             $user = User::findOrFail($id);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
@@ -79,7 +89,7 @@ class AdminController extends Controller
 
         try {
             User::updateUser($id, $name, $role, $salary);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
@@ -91,7 +101,8 @@ class AdminController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
-        } catch (ModelNotFoundException $exception) {
+            attendance::deleteAttendance($id);
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
@@ -103,22 +114,26 @@ class AdminController extends Controller
 
         try {
             $users = attendance::paginate(10);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
-        return view('admin.manageAttendance')->with('users', $users);
+        if (isset($users)) {
+            return view('admin.manageAttendance')->with('users', $users);
+        }else{
+            return view('admin.index')->with('status', 'Attendance Queue Is Empty');
+        }
     }
 
     public function approve(Request $request, $id) {
 
         try {
             attendance::approveAttendance($id);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
-        return view('admin.index');
+        return redirect('manageAttendance')->with('status', 'Attendance Approved');
     }
 
 }

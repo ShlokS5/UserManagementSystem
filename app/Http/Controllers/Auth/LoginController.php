@@ -42,7 +42,6 @@ class LoginController extends Controller
     {
         if (Auth::user()->admin == 1){
             return '/index';
-
         }else{
             return '/home';
         }

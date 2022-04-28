@@ -15,13 +15,20 @@
 </head>
 <body>
     <style type="text/css">
+        body {
+          background-image: url('background.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: cover;
+        }
+
         table {
             border-collapse: collapse;
         }
 
         td, th {
             border: 2px solid #999;
-            padding: 1.5rem;
+            padding: 2rem;
             text-align: left;
         }
     </style>

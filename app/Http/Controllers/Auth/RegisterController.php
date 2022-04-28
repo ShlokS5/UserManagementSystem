@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RegisterController extends Controller
 {
@@ -52,18 +51,13 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function store(RegistrationRequest $request)
+    protected function create(array $data)
     {
-        $request->validate();
-        $name=$request->input('name');
-        $email=$request->input('email');
-        $role=$request->input('role');
-        $password=$request->input('password');
-        try {
-            User::store($name, $email, $role, $salary);
-        } catch (ModelNotFoundException $e) {
-            return back()->withError($e->getMessage());
-        }
-        return view ('/login');
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'role' => $data['role'],
+            'password' => bcrypt($data['password']),
+        ]);
     }
 }

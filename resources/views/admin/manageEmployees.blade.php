@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
-			<h3 class="card title" align="center">Employees</h3>
+			<h3 class="card title" align="center">MANAGE EMPLOYEES</h3>
 			@if (session('status'))
 				<div class="alert alert-success" role="alert">
 					{{ session('status') }}

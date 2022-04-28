@@ -11,7 +11,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
-			<h3 class="card title" align="center">Employee Attendance</h3>
+			<h3 class="card title" align="center">EMPLOYEE ATTENDANCE</h3>
 			@if (session('status'))
 				<div class="alert alert-success" role="alert">
 					{{ session('status') }}
@@ -24,7 +24,6 @@
 					<thead class="text-primary">
 						<th>Id</th>
 						<th>Time In</th>
-						<th>Days Worked</th>
 						<th>Time Out</th>
 						<th>Last Updated</th>
 						<th>Approve</th>
@@ -34,7 +33,6 @@
 							<tr>
 								<th>{{ $row->ID }}</th>
 								<th>{{ $row->timeIn }}</th>
-								<th>{{ $row->DaysWorked }}</th>
 								<th>{{ $row->timeOut }}</th>
 								<th>{{ $row->updated_at }}</th>
 								<th><a href="/approveAttendance/{{ $row->ID }}" class="btn btn-success">Approve</a></th>

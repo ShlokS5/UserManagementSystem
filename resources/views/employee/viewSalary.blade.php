@@ -24,26 +24,26 @@
 
 		<div class="card-body" style="align:center; ">
 			<div class="table-responsive">
-				<table style="width:10%; align:center; " >
+				<table >
 				  <tr>
 				    <th>Basic</th>
-				    <td><script type="text/javascript">document.write({{ $user->salary }}/24)</script></td>
+				    <td><script type="text/javascript">document.write(Math.round({{ $salary }}/24))</script></td>
 				  </tr><br>
 				  <tr>
 				    <th>HRA</th>
-				    <td><script type="text/javascript">document.write({{ $user->salary }}/48)</script></td>
+				    <td><script type="text/javascript">document.write(Math.round({{ $salary }}/48))</script></td>
 				  </tr><br>
 				  <tr>
 				    <th>Special Allowance</th>
-				    <td><script type="text/javascript">document.write({{ $user->salary }}/48)</script></td>
+				    <td><script type="text/javascript">document.write(Math.round({{ $salary }}/48))</script></td>
 				  </tr><br>
 				  <tr>
 				    <th>Deduction</th>
-				    <td><script type="text/javascript">document.write({{ $user->salary }}/336)</script></td>
+				    <td><script type="text/javascript">document.write(Math.round({{ $salary }}/336))</script></td>
 				  </tr><br>
 				  <tr>
 				    <th>Net Salary</th>
-				    <td><script type="text/javascript">document.write({{ $user->salary }}/13)</script></td>
+				    <td><script type="text/javascript">document.write(Math.round({{ $salary }}/13))</script></td>
 				  </tr><br>
 				</table>
 			</div>

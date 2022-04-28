@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Exception;
 
 class DemoCron extends Command
 {
@@ -35,8 +36,11 @@ class DemoCron extends Command
      *
      * @return mixed
      */
-    public function handle()
-    {
-        attendance::truncate();
+    public function handle(){   
+        try {
+            User::monthlyReset();
+        } catch (Exception $e) {
+            return $exception->getMessage();
+        }
     }
 }

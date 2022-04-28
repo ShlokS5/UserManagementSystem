@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\Exception;
 
 class AttendanceController extends Controller
 {   
@@ -18,16 +18,16 @@ class AttendanceController extends Controller
         try {
             $id = Auth::user()->id;
             $user= attendance::find(Auth::user()->id);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
         if (empty($user)) {
-            attendance::newAtt($id);
+            attendance::newAttendance($id);
             return redirect('/markAttendance')->with('status', 'Punched In!');
         }else{
             return redirect('/markAttendance')->with('status', 'Previous attendance still under approval');
-            }
+        }
     }
 
     public function punchOut()
@@ -35,11 +35,11 @@ class AttendanceController extends Controller
         try {
             $id = Auth::user()->id;
             $user= attendance::find($id);
-        } catch (ModelNotFoundException $exception) {
+        } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
-        if (empty($user)) {
+        if (!isset($user)) {
             return redirect('/markAttendance')->with('status', 'Punch In First');
         }else{
             attendance::punchOut($id);

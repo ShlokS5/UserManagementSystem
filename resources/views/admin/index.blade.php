@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
+@if (session('status'))
+	<div class="alert alert-success" role="alert">
+		{{ session('status') }}
+	</div>
+@endif
+
 @section('content')
 <h1 align="center"><br>WELCOME ADMIN</h1>
+<h1 align="center"><br> YOU HAVE {{ $count }} UPDATE REQUESTS</h1>
 @endsection
 
 @section('navmenu')

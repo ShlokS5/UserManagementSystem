@@ -19,7 +19,7 @@ class AdminMiddleware
         if (Auth::user()->admin == 1) {
             return $next($request);
         }else{
-            return '/employee';
+            return back();
         }
  
     }

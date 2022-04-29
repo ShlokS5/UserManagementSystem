@@ -22,6 +22,7 @@ class AdminController extends Controller
         } catch (Exception $e) {
             return $e->getMessage();
         }
+        
         return view('admin.index')->with('count', $count);
     }
 
@@ -48,15 +49,20 @@ class AdminController extends Controller
         
         if ($role == "ALL") {
             $users = User::paginate(7);
-        }else{
+            return view('admin.viewEmployees')->with('users', $users);
+
+        }elseif($role == "SDE" || $role == "HR" || $role == "QA"){
             try {
             $users = User::compareRoles($role)->paginate(7); 
             } catch (Exception $e) {
                 return $e->getMessage();
             }
+            return view('admin.viewEmployees')->with('users', $users);
+
+        }else{
+            return back()->withError("Invalid Input");
         }
 
-        return view('admin.viewEmployees')->with('users', $users);
     }
 
     public function manage() {

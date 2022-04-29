@@ -19,7 +19,7 @@ class EmployeeMiddleware
         if (Auth::user()->admin == 0) {
             return $next($request);
         }else{
-            return '/admin';
+            return back();
         }
     }
 }

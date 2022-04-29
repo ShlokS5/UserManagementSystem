@@ -8,7 +8,7 @@
 
 @section('content')
 <h1 align="center"><br>WELCOME ADMIN</h1>
-<h1 align="center"><br> YOU HAVE {{ $count }} UPDATE REQUESTS</h1>
+<h1 align="center"><br> YOU HAVE {{ $count }} REQUESTS PENDING</h1>
 @endsection
 
 @section('navmenu')

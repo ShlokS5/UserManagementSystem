@@ -63,7 +63,7 @@ class User extends Authenticatable
         return User::all()->update(['daysWorked' => "0"]);
     }
 
-    public function compareRoles($role) {
+    public static function compareRoles($role) {
             return User::where('role','LIKE','%'.$role.'%');
         }
 
@@ -85,7 +85,14 @@ class User extends Authenticatable
     }
     
     public static function updatesPending() {
-        return count(User::all()->where('salary', NULL));
+        $profileUpdates = count(User::all()->where('salary', NULL));
+        $attendanceRequests = count(attendance::all());
+
+        return ($profileUpdates + $attendanceRequests);
+    }
+
+    public static function paginated($page){
+        return User::all()->offset(($page - 1) * 10)->limit(10)->get();
     }
 
 }

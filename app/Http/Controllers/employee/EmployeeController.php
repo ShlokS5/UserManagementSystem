@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Exception;
 class EmployeeController extends Controller
 {   
     public function index() {
+        
         $name = Auth::user()->name;
         return view('employee.home')->with('name', $name);
     }
@@ -64,11 +65,11 @@ class EmployeeController extends Controller
         } catch (Exception $e) {
             return back()->withError($e->getMessage());
         }
-           
+        
         if (count($users) > 0) {
-             return view('employee.viewTeam')->with('users', $users);
-        } else{
-            return redirect('/home')->with('status', 'Only managers can access team data!');
-        }
+           return view('employee.viewTeam')->with('users', $users);
+       } else{
+        return redirect('/home')->with('status', 'Only managers can access team data!');
     }
+}
 }

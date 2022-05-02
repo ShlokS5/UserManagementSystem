@@ -18,7 +18,7 @@ class AdminController extends Controller
     public function index() {
         
         try {   
-        $count = User::updatesPending();
+            $count = User::updatesPending();
         } catch (Exception $e) {
             return $e->getMessage();
         }
@@ -53,7 +53,7 @@ class AdminController extends Controller
 
         }elseif($role == "SDE" || $role == "HR" || $role == "QA"){
             try {
-            $users = User::compareRoles($role)->paginate(7); 
+                $users = User::compareRoles($role)->paginate(7); 
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -140,6 +140,34 @@ class AdminController extends Controller
         }
 
         return redirect('manageAttendance')->with('status', 'Attendance Approved');
+    }
+
+    public function showEmployees(Request $request) {
+
+        $role = $request->get('role');
+        
+        try {
+            $users = User::all();
+        } catch (Exception $exception) {
+            return back()->withError($exception->getMessage());
+        }
+        
+        if ($role == "ALL") {
+            $users = User::paginate(7);
+            return view('admin.viewEmployees')->with('users', $users);
+
+        }elseif($role == "SDE" || $role == "HR" || $role == "QA"){
+            try {
+                $users = User::compareRoles($role)->paginate(7); 
+            } catch (Exception $e) {
+                return $e->getMessage();
+            }
+            return view('admin.viewEmployees')->with('users', $users);
+
+        }else{
+            return back()->withError("Invalid Input");
+        }
+
     }
 
 }

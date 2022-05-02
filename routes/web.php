@@ -7,7 +7,6 @@ Route::get('/', 'auth\LoginController@show');
 
 Auth::routes();
 
-
 Route::group(['middleware' => ['auth', 'admin']], function(){
 
     Route::get('/index', 'admin\AdminController@index');

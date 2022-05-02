@@ -34,14 +34,13 @@ class attendance extends Model
        ));
     }
 
-    public static function approveAttendance($id){
+    public static function approveAttendance($id) {
         $user = User::findOrFail($id);
         User::where('ID', $id)->increment('DaysWorked');
         attendance::deleteAttendance($id);
     }
 
-    public static function deleteAttendance($id){
-
+    public static function deleteAttendance($id) { 
         attendance::where('ID', $id)->delete();
     }
 }

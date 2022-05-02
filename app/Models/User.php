@@ -39,7 +39,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function store($name, $email, $role, $salary){
+    public static function store($name, $email, $role, $salary) {
 
         $user = User::findOrFail($id);
         $user->name = $name;
@@ -49,7 +49,7 @@ class User extends Authenticatable
         $user->save();    
     }
 
-    public static function updateUser($id, $name, $role, $salary){
+    public static function updateUser($id, $name, $role, $salary) {
 
         $user = User::findOrFail($id);
         $user->name = $name;
@@ -58,14 +58,13 @@ class User extends Authenticatable
         $user->update();    
     }
 
-    public function monthlyReset()
-    {
+    public function monthlyReset() {
         return User::all()->update(['daysWorked' => "0"]);
     }
 
     public static function compareRoles($role) {
-            return User::where('role','LIKE','%'.$role.'%');
-        }
+        return User::where('role','LIKE','%'.$role.'%');
+    }
 
     public static function managerType($role) {
         if ($role == "SDE-M") {

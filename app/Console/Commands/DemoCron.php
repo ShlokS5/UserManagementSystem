@@ -36,11 +36,13 @@ class DemoCron extends Command
      *
      * @return mixed
      */
-    public function handle(){   
-        try {
+    public function handle(){
+
+        info ('test');
+        /*try {
             User::monthlyReset();
         } catch (Exception $e) {
             return $exception->getMessage();
-        }
+        }*/
     }
 }

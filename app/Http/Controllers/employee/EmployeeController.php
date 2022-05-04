@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Employee;
 
 use App\Models\User;
-use App\Models\attendance;
+use App\Models\Attendance;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,8 +67,8 @@ class EmployeeController extends Controller
         }
         
         if (count($users) > 0) {
-           return view('employee.viewTeam')->with('users', $users);
-       } else{
+         return view('employee.viewTeam')->with('users', $users);
+     } else{
         return redirect('/home')->with('status', 'Only managers can access team data!');
     }
 }

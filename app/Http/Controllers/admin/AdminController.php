@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use App\Models\attendance;
+use App\Models\Attendance;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,12 +11,13 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Exception;
+use App\Http\Requests\RegistrationRequest;
 
 class AdminController extends Controller
 {   
 
     public function index() {
-        
+
         try {   
             $count = User::updatesPending();
         } catch (Exception $e) {
@@ -88,7 +89,7 @@ class AdminController extends Controller
     }
 
     public function update(Request $request, $id) {
-        
+
         $name = $request->input('name');
         $role = $request->input('role');
         $salary = $request->input('salary');
@@ -99,7 +100,7 @@ class AdminController extends Controller
             return back()->withError($exception->getMessage());
         }
 
-        return redirect('/manageEmployees')->with('status', 'updated successfully');
+        return redirect('manageEmployees')->with('status', 'updated successfully');
     }
 
     public function delete(Request $request, $id) {
@@ -107,19 +108,19 @@ class AdminController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
-            attendance::deleteAttendance($id);
+            Attendance::deleteAttendance($id);
         } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
-        return redirect('/manageEmployees')->with('status', 'Deleted!');
+        return redirect('manageEmployees')->with('status', 'Deleted!');
 
     }
 
     public function viewAttendance() {
 
         try {
-            $users = attendance::paginate(10);
+            $users = Attendance::paginate(10);
         } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
@@ -134,12 +135,35 @@ class AdminController extends Controller
     public function approve(Request $request, $id) {
 
         try {
-            attendance::approveAttendance($id);
+            Attendance::approveAttendance($id);
         } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
         return redirect('manageAttendance')->with('status', 'Attendance Approved');
+    }
+
+    public function addEmployee() {
+
+        return view('admin.addEmployee');
+    }
+
+    public function createEmployee(Request $request) {
+
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $role = $request->input('role');
+        $salary = $request->input('salary');
+        $password = bcrypt($request->input('password'));
+        $data=array('name'=>$name,"email"=>$email,"role"=>$role,"salary"=>$salary,"password"=>$password);
+
+        try {
+            User::store($data); 
+        } catch (Exception $exception) {
+            return back()->withError($exception->getMessage());
+        }
+
+        return redirect('manageEmployees')->with('status', 'Employee Added');
     }
 
     public function showEmployees(Request $request) {

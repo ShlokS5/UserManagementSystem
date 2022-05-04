@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('navmenu')
-<li><a href="/viewEmployees" >View Employee Data</a></li>
 <li><a href="/manageEmployees" >Edit Employee Data</a></li>
 <li><a href="/manageAttendance" >Manage Employee Attendance</a></li>
+<li><a href="addEmployee" >Add Employee</a></li>
 @endsection
-
 @section('content')
 
 <div class="row">
@@ -13,9 +12,9 @@
 		<div class="card">
 			<h3 class="card title" align="center">EMPLOYEES</h3>
 			@if (session('status'))
-				<div class="alert alert-success" role="alert">
-					{{ session('status') }}
-				</div>
+			<div class="alert alert-success" role="alert">
+				{{ session('status') }}
+			</div>
 			@endif
 			<div align="right">
 				<form action="/viewEmployeesFiltered" method="GET" >
@@ -36,7 +35,8 @@
 			<div class="table-responsive">
 				<table class="table">
 					<thead class="text-primary">
-						<th>Id</th>
+						<th>S No.</th>
+						<th>Employee ID</th>
 						<th>Name</th>
 						<th>Email</th>
 						<th>Role</th>
@@ -44,8 +44,9 @@
 						<th>Salary</th>
 					</thead>
 					<tbody>
-						@foreach ($users as $row)
+						@foreach ($users as $idx=>$row)
 						<tr>
+							<th>{{ $idx+1 }}</th>
 							<th>{{ $row->id }}</th>
 							<th>{{ $row->name }}</th>
 							<th>{{ $row->email }}</th>

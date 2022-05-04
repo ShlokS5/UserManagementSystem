@@ -2,8 +2,8 @@
 
 @section('navmenu')
 <li><a href="/viewEmployees" >View Employee Data</a></li>
-<li><a href="/manageEmployees" >Edit Employee Data</a></li>
 <li><a href="/manageAttendance" >Manage Employee Attendance</a></li>
+<li><a href="addEmployee" >Add Employee</a></li>
 @endsection
 
 @section('content')

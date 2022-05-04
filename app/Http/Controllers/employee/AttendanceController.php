@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Employee;
 
 use App\Models\User;
 use Carbon\Carbon;
-use App\Models\attendance;
+use App\Models\Attendance;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +17,13 @@ class AttendanceController extends Controller
     {   
         try {
             $id = Auth::user()->id;
-            $user= attendance::find(Auth::user()->id);
+            $user= Attendance::find(Auth::user()->id);
         } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
 
         if (empty($user)) {
-            attendance::newAttendance($id);
+            Attendance::newAttendance($id);
             return redirect('/markAttendance')->with('status', 'Punched In!');
         }else{
             return redirect('/markAttendance')->with('status', 'Previous attendance still under approval');
@@ -34,7 +34,7 @@ class AttendanceController extends Controller
     {   
         try {
             $id = Auth::user()->id;
-            $user= attendance::find($id);
+            $user= Attendance::find($id);
         } catch (Exception $exception) {
             return back()->withError($exception->getMessage());
         }
@@ -42,7 +42,7 @@ class AttendanceController extends Controller
         if (!isset($user)) {
             return redirect('/markAttendance')->with('status', 'Punch In First');
         }else{
-            attendance::punchOut($id);
+            Attendance::punchOut($id);
             return redirect('/markAttendance')->with('status', 'Punched Out!');
         }
         

@@ -26,10 +26,10 @@ class DemoCron extends Command
      *
      * @return void
      */
-    public function __construct()
+    /*public function __construct()
     {
         parent::__construct();
-    }
+    }*/
 
     /**
      * Execute the console command.
@@ -39,10 +39,5 @@ class DemoCron extends Command
     public function handle(){
 
         info ('test');
-        /*try {
-            User::monthlyReset();
-        } catch (Exception $e) {
-            return $exception->getMessage();
-        }*/
     }
 }

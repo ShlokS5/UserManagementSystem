@@ -19,7 +19,7 @@ class AdminMiddleware
         if (Auth::user()->admin == 1) {
             return $next($request);
         }else{
-            return view('admin.index')->with('status', 'You cannot access this page');
+            return response()->view('auth.errorPage');;
         }
  
     }

@@ -39,14 +39,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function store($name, $email, $role, $salary) {
+    public static function store($data) {
 
-        $user = User::findOrFail($id);
-        $user->name = $name;
-        $user->email = $email;
-        $user->role = $role;
-        $user->password = bcrypt($name);
-        $user->save();    
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'role' => $data['role'],
+            'salary' => $data['salary'],
+            'password' => bcrypt($data['password']),
+        ]);
     }
 
     public static function updateUser($id, $name, $role, $salary) {
@@ -85,7 +86,7 @@ class User extends Authenticatable
     
     public static function updatesPending() {
         $profileUpdates = count(User::all()->where('salary', NULL));
-        $attendanceRequests = count(attendance::all());
+        $attendanceRequests = count(Attendance::all());
 
         return ($profileUpdates + $attendanceRequests);
     }
